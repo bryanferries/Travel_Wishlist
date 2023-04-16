@@ -3,17 +3,30 @@ package com.example.travelwishlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class PlaceRecyclerAdapter(private val places: List<String>):
+
+interface OnListItemClickedListener {
+    fun onListItemClicked(place: String)
+}
+
+class PlaceRecyclerAdapter(private val places: List<String>,
+                            private val onListItemClickedListener: OnListItemClickedListener):
     RecyclerView.Adapter<PlaceRecyclerAdapter.ViewHolder>() {
 
     //manages on view - one list item - sets the actual datal in the view
-        class ViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
             fun bind(place: String) {
                 val placeNameTextView: TextView = view.findViewById(R.id.place_name)
                 placeNameTextView.text = place
+
+                val androidIcon: ImageView = view.findViewById(R.id.android_icon)
+            androidIcon.setOnClickListener {
+                //wHat now?
+                onListItemClickedListener.onListItemClicked(place)
+            }
             }
         }
 

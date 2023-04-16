@@ -1,6 +1,8 @@
 package com.example.travelwishlist
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -11,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnListItemClickedListener {
 
     private lateinit var newPlaceEditText: EditText
     private lateinit var addNewPlaceButton: Button
@@ -32,9 +34,9 @@ class MainActivity : AppCompatActivity() {
         addNewPlaceButton = findViewById(R.id.add_new_place_button)
         newPlaceEditText = findViewById(R.id.new_place_name)
 
-val places = placesViewModel.getPlaces()
+        val places = placesViewModel.getPlaces()
 
-        placesRecyclerAdapter = PlaceRecyclerAdapter(places)
+        placesRecyclerAdapter = PlaceRecyclerAdapter(places, this)
         placeListRecyclerView.layoutManager = LinearLayoutManager(this)
         placeListRecyclerView.adapter = placesRecyclerAdapter
 
@@ -67,5 +69,12 @@ val places = placesViewModel.getPlaces()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+    override fun onListItemClicked(place: String) {
+        Toast.makeText(this, "$place map icon was clicked", Toast.LENGTH_SHORT).show()
+        val placeLocationUri = Uri.parse("geo:0,0?q=$place")
+        val mapIntent = Intent(Intent.ACTION_VIEW, placeLocationUri)
+        startActivity(mapIntent)
     }
 }
