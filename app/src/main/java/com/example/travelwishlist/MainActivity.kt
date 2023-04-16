@@ -1,7 +1,9 @@
 package com.example.travelwishlist
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -47,7 +49,23 @@ val places = placesViewModel.getPlaces()
             Toast.makeText(this, "Enter a place name", Toast.LENGTH_LONG).show()
         } else {
             val positionAdded = placesViewModel.addNewPlace(name)
+            if (positionAdded == -1) {
+                Toast.makeText(this, "You already added that place", Toast.LENGTH_SHORT).show()
+            } else {
             placesRecyclerAdapter.notifyItemInserted(positionAdded)
+                clearForm()
+                hideKeyboard()
+        }
+    }
+}
+    private fun clearForm() {
+    newPlaceEditText.text.clear()
+    }
+
+    private fun hideKeyboard() {
+        this.currentFocus?.let { view ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }
