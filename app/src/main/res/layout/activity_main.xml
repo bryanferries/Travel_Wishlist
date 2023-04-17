@@ -20,13 +20,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/travel_background" />
+        app:srcCompat="@drawable/travel_background"
+        android:contentDescription="@string/it_s_a_button_bro" />
 
     <EditText
         android:id="@+id/new_place_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_spacing"
+        android:autofillHints="@string/where_do_you_want_to_go"
         android:background="@color/white"
         android:ems="10"
         android:hint="@string/where_do_you_want_to_go"
@@ -34,15 +36,35 @@
         android:minHeight="48dp"
         android:padding="@dimen/small_spacing"
         android:textColor="@android:color/darker_gray"
-        android:textSize="22dp"
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/large_text_size"
         app:layout_constraintEnd_toStartOf="@+id/add_new_place_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/new_place_reason"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:autofillHints="@string/what_s_the_reason_you_want_to_go_there"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="@string/what_s_the_reason_you_want_to_go_there"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="@dimen/small_spacing"
+        android:textColor="@android:color/darker_gray"
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/medium_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/new_place_name"
+        app:layout_constraintStart_toStartOf="@+id/new_place_name"
+        app:layout_constraintTop_toBottomOf="@+id/new_place_name" />
+
     <Button
         android:id="@+id/add_new_place_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="@dimen/medium_spacing"
         android:backgroundTint="@color/black"
         android:padding="@dimen/small_spacing"
@@ -50,7 +72,7 @@
         android:textColor="@color/sign_yellow"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/new_place_name"
+        app:layout_constraintBottom_toBottomOf="@+id/new_place_reason"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/new_place_name" />
 
@@ -61,8 +83,9 @@
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_place_name" />
+        app:layout_constraintTop_toBottomOf="@+id/new_place_reason"
+        app:layout_constraintVertical_bias="0.272" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

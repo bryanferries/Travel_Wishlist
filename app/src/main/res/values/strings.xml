@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Travel Wishlist</string>
     <string name="where_do_you_want_to_go">Where do you want to go?</string>
+    <string name="what_s_the_reason_you_want_to_go_there">What\'s the reason you want to go there?</string>
     <string name="add">Add</string>
     <string name="show_map">Show map</string>
     <string name="created_on">Created on %1$s</string>
     <string name="place_deleted">%1$s deleted!</string>
     <string name="undo"> U N D O </string>
+    <string name="it_s_a_button_bro">It\'s a button, bro.</string>
 </resources>

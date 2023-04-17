@@ -8,8 +8,8 @@ import java.util.*
 const val TAG = "PLACES_VIEW_MODEL"
 class PlacesViewModel: ViewModel() {
 
-    private val places = mutableListOf<Place>(Place("Auckland, NZ"),
-        Place("Patagonia"))
+    private val places = mutableListOf<Place>(Place("Auckland, NZ", "Lord of the Rings Set"),
+        Place("Patagonia", "Clothing Brand"))
 
     fun getPlaces(): List<Place>  {
         return places       //smart cast
