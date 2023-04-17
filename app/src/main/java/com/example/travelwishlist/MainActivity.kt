@@ -10,10 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity(), OnListItemClickedListener {
+class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChangedListener {
 
     private lateinit var newPlaceEditText: EditText
     private lateinit var addNewPlaceButton: Button
@@ -40,6 +42,9 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener {
         placeListRecyclerView.layoutManager = LinearLayoutManager(this)
         placeListRecyclerView.adapter = placesRecyclerAdapter
 
+        val listener = OnListItemSwipeListener(this)
+        ItemTouchHelper(listener).attachToRecyclerView(placeListRecyclerView)
+
         addNewPlaceButton.setOnClickListener {
             addNewPlace()
         }
@@ -50,7 +55,8 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener {
         if (name.isEmpty()) {
             Toast.makeText(this, "Enter a place name", Toast.LENGTH_LONG).show()
         } else {
-            val positionAdded = placesViewModel.addNewPlace(name)
+            val newPlace = Place(name)
+            val positionAdded = placesViewModel.addNewPlace(newPlace)
             if (positionAdded == -1) {
                 Toast.makeText(this, "You already added that place", Toast.LENGTH_SHORT).show()
             } else {
@@ -71,10 +77,29 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener {
         }
     }
 
-    override fun onListItemClicked(place: String) {
-        Toast.makeText(this, "$place map icon was clicked", Toast.LENGTH_SHORT).show()
-        val placeLocationUri = Uri.parse("geo:0,0?q=$place")
+    override fun onListItemClicked(place: Place) {
+        Toast.makeText(this, "${place.name} map icon was clicked", Toast.LENGTH_SHORT).show()
+        val placeLocationUri = Uri.parse("geo:0,0?q=$place.name")
         val mapIntent = Intent(Intent.ACTION_VIEW, placeLocationUri)
         startActivity(mapIntent)
     }
-}
+
+    override fun onListItemMoved(from: Int, to: Int) {
+        placesViewModel.movePlace(from, to)
+        placesRecyclerAdapter.notifyItemMoved(from, to)
+    }
+
+    override fun onListItemDeleted(position: Int) {
+        val deletedPlace = placesViewModel.deletePlace(position)
+        placesRecyclerAdapter.notifyItemRemoved(position)
+
+        Snackbar.make(findViewById(R.id.wishlist_container), "${deletedPlace.name} deleted", Snackbar.LENGTH_LONG)
+            .setActionTextColor(resources.getColor(R.color.undo_red))
+            .setBackgroundTint(resources.getColor(R.color.purple_500))
+            .setAction(getString(R.string.undo)) {      //display an undo
+                placesViewModel.addNewPlace(deletedPlace, position)
+                placesRecyclerAdapter.notifyItemInserted(position)
+            }
+            .show()
+        }
+    }

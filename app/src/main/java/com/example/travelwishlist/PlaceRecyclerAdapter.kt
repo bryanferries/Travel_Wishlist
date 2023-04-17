@@ -9,21 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 interface OnListItemClickedListener {
-    fun onListItemClicked(place: String)
+    fun onListItemClicked(place: Place)
 }
 
-class PlaceRecyclerAdapter(private val places: List<String>,
+class PlaceRecyclerAdapter(private val places: List<Place>,
                             private val onListItemClickedListener: OnListItemClickedListener):
     RecyclerView.Adapter<PlaceRecyclerAdapter.ViewHolder>() {
 
     //manages on view - one list item - sets the actual datal in the view
         inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
-            fun bind(place: String) {
+            fun bind(place: Place) {
                 val placeNameTextView: TextView = view.findViewById(R.id.place_name)
-                placeNameTextView.text = place
+                placeNameTextView.text = place.name
+
+                val dateCreatedOnTextView: TextView = view.findViewById(R.id.date_place_added)
+                val createdOnText = view.context.getString(R.string.created_on, place.formattedDate())
+                dateCreatedOnTextView.text = createdOnText
 
                 val androidIcon: ImageView = view.findViewById(R.id.android_icon)
-            androidIcon.setOnClickListener {
+                androidIcon.setOnClickListener {
                 //wHat now?
                 onListItemClickedListener.onListItemClicked(place)
             }
