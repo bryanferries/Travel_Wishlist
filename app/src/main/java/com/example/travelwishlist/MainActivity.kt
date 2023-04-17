@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChang
 
     override fun onListItemClicked(place: Place) {
         Toast.makeText(this, "${place.name} map icon was clicked", Toast.LENGTH_SHORT).show()
-        val placeLocationUri = Uri.parse("geo:0,0?q=$place.name")
+        val placeLocationUri = Uri.parse("geo:0,0?q=${place.name}")
         val mapIntent = Intent(Intent.ACTION_VIEW, placeLocationUri)
         startActivity(mapIntent)
     }
